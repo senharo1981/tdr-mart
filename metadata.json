@@ -1,0 +1,7 @@
+{
+  "name": "Copy of TDR Mart - Fresh Veg & Fruits",
+  "description": "Premium fresh vegetable and fruit delivery service for Tando Allahyar, featuring a WhatsApp-based ordering system and an advanced admin dashboard.",
+  "requestFramePermissions": [
+    "geolocation"
+  ]
+}
