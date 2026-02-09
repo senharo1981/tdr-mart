@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>TDR Mart - Tando Allahyar</title>
     
-    <!-- Tailwind CSS for Styling -->
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
     <!-- Google Fonts -->
@@ -16,12 +16,11 @@
       .animate-spin-slow { animation: spin 3s linear infinite; }
       @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
       
-      /* Smooth loading fade-in */
-      #root { opacity: 0; animation: fadeIn 0.5s ease-in forwards; }
-      @keyframes fadeIn { to { opacity: 1; } }
+      /* Fade in effect once loaded */
+      #root { opacity: 1; transition: opacity 0.5s ease-in; }
     </style>
 
-    <!-- Import Map: Libraries ko connect karne ke liye (Corrected Version) -->
+    <!-- Corrected Import Map (No duplicates, stable versions) -->
     <script type="importmap">
 {
   "imports": {
@@ -30,8 +29,8 @@
     "react-dom/client": "https://esm.sh/react-dom@19.0.0/client",
     "react-router-dom": "https://esm.sh/react-router-dom@7.1.5",
     "@supabase/supabase-js": "https://esm.sh/@supabase/supabase-js@2.48.1",
-    "react-dom/": "https://esm.sh/react-dom@^19.2.4/",
-    "react/": "https://esm.sh/react@^19.2.4/"
+    "react/": "https://esm.sh/react@^19.2.4/",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.4/"
   }
 }
 </script>
@@ -39,7 +38,7 @@
   <body>
     <div id="root">
       <!-- Premium Loading Screen -->
-      <div class="fixed inset-0 flex flex-col items-center justify-center bg-white z-[9999]">
+      <div id="tdr-loader" class="fixed inset-0 flex flex-col items-center justify-center bg-white z-[9999]">
         <div class="relative w-28 h-28 mb-8">
           <div class="absolute inset-0 border-[6px] border-green-50 rounded-full"></div>
           <div class="absolute inset-0 border-[6px] border-green-600 border-t-transparent rounded-full animate-spin"></div>
@@ -49,30 +48,25 @@
           <h1 class="text-3xl font-black text-gray-900 tracking-tighter mb-2">TDR MART</h1>
           <div class="flex items-center justify-center gap-2">
             <span class="w-2.5 h-2.5 bg-green-500 rounded-full animate-pulse"></span>
-            <p class="text-[10px] font-black text-gray-400 uppercase tracking-[0.3em]">Loading Fresh Store...</p>
+            <p class="text-[10px] font-black text-gray-400 uppercase tracking-[0.3em]">Fresh Sabzi On The Way...</p>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Application Loader Engine -->
+    <!-- Application Engine -->
     <script type="module">
       import { run } from "https://esm.sh/run";
       
-      // index.tsx ko execute karne ka final command
+      // index.tsx load karne ka sahi tareeqa
       run("./index.tsx").catch(err => {
-        console.error("App load nahi ho saki:", err);
+        console.error("Critical Failure:", err);
         document.getElementById('root').innerHTML = `
-          <div class="min-h-screen flex items-center justify-center p-6 bg-gray-50 text-center">
+          <div class="min-h-screen flex flex-col items-center justify-center p-10 text-center bg-gray-50">
             <div class="bg-white p-10 rounded-[3rem] shadow-2xl border border-red-50 max-w-sm">
-              <div class="w-20 h-20 bg-red-50 text-red-500 rounded-full flex items-center justify-center mx-auto mb-6">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </div>
-              <h2 class="text-2xl font-black text-gray-900 mb-2">Connection Error</h2>
-              <p class="text-gray-500 text-sm mb-8 font-medium">Internet check karein ya page refresh karein. GitHub Pages kabhi load honay mein waqt leta hai.</p>
-              <button onclick="location.reload()" class="w-full bg-green-600 text-white py-5 rounded-2xl font-black uppercase text-xs tracking-widest shadow-xl shadow-green-100 active:scale-95 transition-all">Retry Now</button>
+              <h1 class="text-2xl font-black text-red-500 mb-4 tracking-tighter">Connection Error</h1>
+              <p class="text-gray-500 text-sm mb-8 leading-relaxed font-medium">Shayad internet slow hai ya GitHub update ho raha hai. Baraye meherbani 1 minute baad dobara koshish karein.</p>
+              <button onclick="location.reload()" class="w-full bg-green-600 text-white py-5 rounded-2xl font-black uppercase text-xs tracking-widest shadow-xl active:scale-95 transition-all">Retry Now</button>
             </div>
           </div>
         `;
