@@ -15,9 +15,17 @@
       body { font-family: 'Poppins', sans-serif; background-color: #f9fafb; margin: 0; padding: 0; }
       .animate-spin-slow { animation: spin 3s linear infinite; }
       @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+      
+      /* Smooth scrolling for the whole page */
+      html { scroll-behavior: smooth; }
+      
+      /* Custom Scrollbar for a premium look */
+      ::-webkit-scrollbar { width: 6px; }
+      ::-webkit-scrollbar-track { background: #f1f1f1; }
+      ::-webkit-scrollbar-thumb { background: #16a34a; border-radius: 10px; }
     </style>
 
-    <!-- Import Map: Libraries load karne ke liye -->
+    <!-- Import Map: Sab libraries yahan se load hoti hain -->
     <script type="importmap">
 {
   "imports": {
@@ -34,32 +42,37 @@
   </head>
   <body>
     <div id="root">
-      <!-- Loading Screen -->
+      <!-- Loader: Jab tak App load ho rahi hai -->
       <div class="min-h-screen flex items-center justify-center bg-white">
         <div class="text-center">
-          <div class="relative w-20 h-20 mx-auto mb-6">
+          <div class="relative w-24 h-24 mx-auto mb-6">
             <div class="absolute inset-0 border-4 border-green-100 rounded-full"></div>
             <div class="absolute inset-0 border-4 border-green-600 border-t-transparent rounded-full animate-spin"></div>
             <div class="absolute inset-4 border-4 border-orange-400 border-b-transparent rounded-full animate-spin-slow"></div>
           </div>
-          <h1 class="text-xl font-black text-gray-900 tracking-tighter mb-1">TDR MART</h1>
-          <p class="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] animate-pulse">Connecting to Store...</p>
+          <h1 class="text-2xl font-black text-gray-900 tracking-tighter mb-1">TDR MART</h1>
+          <div class="flex items-center justify-center gap-2">
+            <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+            <p class="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">Connecting to Tando Allahyar...</p>
+          </div>
         </div>
       </div>
     </div>
 
-    <!-- Application Loader -->
+    <!-- Application Engine -->
     <script type="module">
       import { run } from "https://esm.sh/run";
       
-      // index.tsx ko load karne ki koshish
+      // index.tsx ko load karne ka command
       run("./index.tsx").catch(err => {
-        console.error("App failed to start:", err);
+        console.error("Critical: App crash during startup", err);
         document.getElementById('root').innerHTML = `
-          <div class="min-h-screen flex flex-col items-center justify-center p-10 text-center">
-            <h1 class="text-2xl font-black text-red-500 mb-2">Load Nahi Ho Saka!</h1>
-            <p class="text-gray-500 mb-6">Shayad Internet slow hai ya GitHub ki file load nahi ho rahi.</p>
-            <button onclick="location.reload()" class="bg-green-600 text-white px-8 py-3 rounded-2xl font-bold uppercase text-xs tracking-widest shadow-lg shadow-green-100">Dobara Koshish Karein</button>
+          <div class="min-h-screen flex flex-col items-center justify-center p-10 text-center bg-gray-50">
+            <div class="bg-white p-8 rounded-[2.5rem] shadow-xl border border-red-50 max-w-sm">
+              <h1 class="text-2xl font-black text-red-500 mb-4 tracking-tight">Load Nahi Ho Saka</h1>
+              <p class="text-gray-500 text-sm mb-8 leading-relaxed font-medium">Shayad internet ka masla hai ya GitHub Files refresh nahi huien. 1 minute ruk kar dobara try karein.</p>
+              <button onclick="location.reload()" class="w-full bg-green-600 text-white px-8 py-4 rounded-2xl font-black uppercase text-xs tracking-widest shadow-lg shadow-green-100 active:scale-95 transition-all">Dobara Refresh Karein</button>
+            </div>
           </div>
         `;
       });
