@@ -5,27 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>TDR Mart - Tando Allahyar</title>
     
-    <!-- Tailwind CSS -->
+    <!-- Tailwind CSS for Styling -->
     <script src="https://cdn.tailwindcss.com"></script>
     
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     
     <style>
-      body { font-family: 'Poppins', sans-serif; background-color: #f9fafb; margin: 0; padding: 0; }
+      body { font-family: 'Poppins', sans-serif; background-color: #ffffff; margin: 0; padding: 0; overflow-x: hidden; }
       .animate-spin-slow { animation: spin 3s linear infinite; }
       @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
       
-      /* Smooth scrolling for the whole page */
-      html { scroll-behavior: smooth; }
-      
-      /* Custom Scrollbar for a premium look */
-      ::-webkit-scrollbar { width: 6px; }
-      ::-webkit-scrollbar-track { background: #f1f1f1; }
-      ::-webkit-scrollbar-thumb { background: #16a34a; border-radius: 10px; }
+      /* Smooth loading fade-in */
+      #root { opacity: 0; animation: fadeIn 0.5s ease-in forwards; }
+      @keyframes fadeIn { to { opacity: 1; } }
     </style>
 
-    <!-- Import Map: Sab libraries yahan se load hoti hain -->
+    <!-- Import Map: Libraries ko connect karne ke liye (Corrected Version) -->
     <script type="importmap">
 {
   "imports": {
@@ -42,36 +38,41 @@
   </head>
   <body>
     <div id="root">
-      <!-- Loader: Jab tak App load ho rahi hai -->
-      <div class="min-h-screen flex items-center justify-center bg-white">
+      <!-- Premium Loading Screen -->
+      <div class="fixed inset-0 flex flex-col items-center justify-center bg-white z-[9999]">
+        <div class="relative w-28 h-28 mb-8">
+          <div class="absolute inset-0 border-[6px] border-green-50 rounded-full"></div>
+          <div class="absolute inset-0 border-[6px] border-green-600 border-t-transparent rounded-full animate-spin"></div>
+          <div class="absolute inset-4 border-[6px] border-orange-400 border-b-transparent rounded-full animate-spin-slow"></div>
+        </div>
         <div class="text-center">
-          <div class="relative w-24 h-24 mx-auto mb-6">
-            <div class="absolute inset-0 border-4 border-green-100 rounded-full"></div>
-            <div class="absolute inset-0 border-4 border-green-600 border-t-transparent rounded-full animate-spin"></div>
-            <div class="absolute inset-4 border-4 border-orange-400 border-b-transparent rounded-full animate-spin-slow"></div>
-          </div>
-          <h1 class="text-2xl font-black text-gray-900 tracking-tighter mb-1">TDR MART</h1>
+          <h1 class="text-3xl font-black text-gray-900 tracking-tighter mb-2">TDR MART</h1>
           <div class="flex items-center justify-center gap-2">
-            <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
-            <p class="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">Connecting to Tando Allahyar...</p>
+            <span class="w-2.5 h-2.5 bg-green-500 rounded-full animate-pulse"></span>
+            <p class="text-[10px] font-black text-gray-400 uppercase tracking-[0.3em]">Loading Fresh Store...</p>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Application Engine -->
+    <!-- Application Loader Engine -->
     <script type="module">
       import { run } from "https://esm.sh/run";
       
-      // index.tsx ko load karne ka command
+      // index.tsx ko execute karne ka final command
       run("./index.tsx").catch(err => {
-        console.error("Critical: App crash during startup", err);
+        console.error("App load nahi ho saki:", err);
         document.getElementById('root').innerHTML = `
-          <div class="min-h-screen flex flex-col items-center justify-center p-10 text-center bg-gray-50">
-            <div class="bg-white p-8 rounded-[2.5rem] shadow-xl border border-red-50 max-w-sm">
-              <h1 class="text-2xl font-black text-red-500 mb-4 tracking-tight">Load Nahi Ho Saka</h1>
-              <p class="text-gray-500 text-sm mb-8 leading-relaxed font-medium">Shayad internet ka masla hai ya GitHub Files refresh nahi huien. 1 minute ruk kar dobara try karein.</p>
-              <button onclick="location.reload()" class="w-full bg-green-600 text-white px-8 py-4 rounded-2xl font-black uppercase text-xs tracking-widest shadow-lg shadow-green-100 active:scale-95 transition-all">Dobara Refresh Karein</button>
+          <div class="min-h-screen flex items-center justify-center p-6 bg-gray-50 text-center">
+            <div class="bg-white p-10 rounded-[3rem] shadow-2xl border border-red-50 max-w-sm">
+              <div class="w-20 h-20 bg-red-50 text-red-500 rounded-full flex items-center justify-center mx-auto mb-6">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </div>
+              <h2 class="text-2xl font-black text-gray-900 mb-2">Connection Error</h2>
+              <p class="text-gray-500 text-sm mb-8 font-medium">Internet check karein ya page refresh karein. GitHub Pages kabhi load honay mein waqt leta hai.</p>
+              <button onclick="location.reload()" class="w-full bg-green-600 text-white py-5 rounded-2xl font-black uppercase text-xs tracking-widest shadow-xl shadow-green-100 active:scale-95 transition-all">Retry Now</button>
             </div>
           </div>
         `;
