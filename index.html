@@ -15,12 +15,10 @@
       body { font-family: 'Poppins', sans-serif; background-color: #ffffff; margin: 0; padding: 0; overflow-x: hidden; }
       .animate-spin-slow { animation: spin 3s linear infinite; }
       @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-      
-      /* Fade in effect once loaded */
-      #root { opacity: 1; transition: opacity 0.5s ease-in; }
+      #root { min-height: 100vh; }
     </style>
 
-    <!-- Corrected Import Map (No duplicates, stable versions) -->
+    <!-- Finalized Stable Import Map -->
     <script type="importmap">
 {
   "imports": {
@@ -29,8 +27,8 @@
     "react-dom/client": "https://esm.sh/react-dom@19.0.0/client",
     "react-router-dom": "https://esm.sh/react-router-dom@7.1.5",
     "@supabase/supabase-js": "https://esm.sh/@supabase/supabase-js@2.48.1",
-    "react/": "https://esm.sh/react@^19.2.4/",
-    "react-dom/": "https://esm.sh/react-dom@^19.2.4/"
+    "react-dom/": "https://esm.sh/react-dom@^19.2.4/",
+    "react/": "https://esm.sh/react@^19.2.4/"
   }
 }
 </script>
@@ -48,7 +46,7 @@
           <h1 class="text-3xl font-black text-gray-900 tracking-tighter mb-2">TDR MART</h1>
           <div class="flex items-center justify-center gap-2">
             <span class="w-2.5 h-2.5 bg-green-500 rounded-full animate-pulse"></span>
-            <p class="text-[10px] font-black text-gray-400 uppercase tracking-[0.3em]">Fresh Sabzi On The Way...</p>
+            <p class="text-[10px] font-black text-gray-400 uppercase tracking-[0.3em]">Loading Fresh Stock...</p>
           </div>
         </div>
       </div>
@@ -58,18 +56,21 @@
     <script type="module">
       import { run } from "https://esm.sh/run";
       
-      // index.tsx load karne ka sahi tareeqa
+      // Starting the app with clean error handling
       run("./index.tsx").catch(err => {
-        console.error("Critical Failure:", err);
-        document.getElementById('root').innerHTML = `
-          <div class="min-h-screen flex flex-col items-center justify-center p-10 text-center bg-gray-50">
-            <div class="bg-white p-10 rounded-[3rem] shadow-2xl border border-red-50 max-w-sm">
-              <h1 class="text-2xl font-black text-red-500 mb-4 tracking-tighter">Connection Error</h1>
-              <p class="text-gray-500 text-sm mb-8 leading-relaxed font-medium">Shayad internet slow hai ya GitHub update ho raha hai. Baraye meherbani 1 minute baad dobara koshish karein.</p>
-              <button onclick="location.reload()" class="w-full bg-green-600 text-white py-5 rounded-2xl font-black uppercase text-xs tracking-widest shadow-xl active:scale-95 transition-all">Retry Now</button>
+        console.error("Startup Error:", err);
+        const root = document.getElementById('root');
+        if (root) {
+          root.innerHTML = `
+            <div class="min-h-screen flex items-center justify-center p-6 bg-gray-50">
+              <div class="bg-white p-10 rounded-[3rem] shadow-2xl border border-red-50 text-center max-w-sm">
+                <h2 class="text-2xl font-black text-red-500 mb-4">Display Error</h2>
+                <p class="text-gray-500 text-sm mb-8 font-medium line-clamp-3">${err.message || 'Connection lost. Please refresh.'}</p>
+                <button onclick="location.reload()" class="w-full bg-green-600 text-white py-5 rounded-2xl font-black uppercase text-xs tracking-widest shadow-xl active:scale-95 transition-all">Retry Now</button>
+              </div>
             </div>
-          </div>
-        `;
+          `;
+        }
       });
     </script>
   </body>
